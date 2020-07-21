@@ -1,1 +1,78 @@
--->>>Lua è¿ç®—ç¬¦
+-->>>Lua ÔËËã·û
+
+--ÔËËã·ûÊÇÒ»¸öÌØÊâµÄ·ûºÅ£¬ÓÃÓÚ¸ßËÙ½âÊÍÆ÷Ö´ĞĞÌØ¶¨µÄÊıÑ§»òÕßÂß¼­ÔËËã¡£luaÌá¹©ÁËÒ»ÏÂ¼¯ÖĞÔËËã·ûÀàĞÍ£º
+
+--1.ËãÊõÔËËã·û£º+,-,*,/,%,^,-
+-- a=21;
+-- b=10;
+-- print("¼Ó·¨ÔËËã£º"..a+b);
+-- print("¼õ·¨ÔËËã£º"..a-b);
+-- print("³Ë·¨ÔËËã£º"..a*b);
+-- print("³ı·¨ÔËËã£º"..a/b);
+-- print("È¡ÓàÔËËã£º"..a%b);
+-- print("³ËÃİÔËËã£º"..b^2);
+-- print("È¡¸ºÔËËã£º"..-a);
+
+--2.¹ØÏµÔËËã·û£º==,~=(²»µÈÓÚ),>,<,>=,<=
+-- a=21;
+-- b=10;
+-- if(a==b) then
+--     print("aµÈÓÚb");
+-- else
+--     print("a²»µÈÓÚb")
+-- end
+
+-- if(a~=b) then
+--     print("a²»µÈÓÚb");
+-- else
+--     print("aµÈÓÚb")
+-- end
+
+-- if(a>b) then
+--     print("a´óÓÚb");
+-- else
+--     if(a<b) then
+--         print("aĞ¡ÓÚb");
+--     end
+-- end
+
+-- if(a>=b) then
+--     print("a´óÓÚµÈÓÚb");
+-- else
+--     if(a<=b) then
+--         print("aĞ¡ÓÚµÈÓÚb");
+--     end
+-- end
+
+-- --3.Âß¼­ÔËËã·û£ºand-Âß¼­Óë²Ù×÷·û£»or-Âß¼­»ò²Ù×÷·û£»not-Âß¼­·Ç²Ù×÷·û
+-- a=true;
+-- b=true;      -->Í¨¹ı¸ü¸Äb=true »òb=false ¿ÉÒÔ¿ØÖÆÒ»ÏÂÔËËãµÃµ½²»Í¬µÄ½á¹û
+-- if(a and b) then
+--     print("a and b:true");
+-- else 
+--     print("a and b:false")
+-- end
+
+-- if(a or b) then
+--     print("a or b :true")
+-- else 
+--     print("a or b£ºfalse")
+-- end
+
+-- if(not(a and b)) then
+--     print("not(a and b) :true")
+-- else 
+--     print("not(a and b) :false")
+-- end
+
+--4.ÆäËûÔËËã·û
+--..Á¬½ÓÁ½¸ö×Ö·û´®
+--#Ò»ÔªÔËËã·û£¬·µ»Ø×Ö·û´®»ò±íµÄ³¤¶È
+-- a="Hello";
+-- b="World";
+-- print(a..b);
+-- print(#a);
+-- print(#b);
+
+
+
