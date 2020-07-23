@@ -129,13 +129,65 @@
 -- --十进制格式化
 -- print(string.format("%.4f",1/3));
 
-print(string.format("%c",97));      -->a
-print(string.format("%+d",17.0))    -->+17
-print(string.format("%05d",17))     -->00017 其中0是当不足5位数时的占位符，若不填写，则默认用空格作为占位符
-print(string.format("%o",17))       -->八进制数：21
-print(string.format("%u",10))       -->10(无符号整数)
-print(string.format("%x",10))       -->十六进制a
-print(string.format("%X",10))       -->十六进制A
+-- print(string.format("%c",97));      -->a
+-- print(string.format("%+d",17.0))    -->+17
+-- print(string.format("%05d",17))     -->00017 其中0是当不足5位数时的占位符，若不填写，则默认用空格作为占位符
+-- print(string.format("%o",17))       -->八进制数：21
+-- print(string.format("%u",10))       -->10(无符号整数)
+-- print(string.format("%x",10))       -->十六进制a
+-- print(string.format("%X",10))       -->十六进制A
+-- print(string.format("%e",1000))     -->1.000000e+03
+-- print(string.format("%E",1000))     -->1.000000E+03
+-- print(string.format("%0.3f",13))    -->13.000
+-- print(string.format("%q","One\nTwo"))   
+-- print(string.format("%s","monkey")) -->monkey
+-- print(string.format("%010s","monkey"))   -->    moneky   (代表总共10位字符，monkey为5位，不足10位，前面默认补齐4位空格（若为：%010s，则在前面补齐4位0，而不是空格）)
+-- print(string.format("%5.3s","monkey"))   -->  mon   
+
+
+--6.字符与整数相互转换
+-- --转换第一个字符：
+-- print(string.byte("Lua"))       -->不指定索引，默认转换第一位字符转换为ASCII字符对应的十进制整数  76
+-- --转换第三个字符
+-- print(string.byte("Lua",3))     -->转换指定索引的字符转换为ASCII码对应的十进制整数  97
+-- --转换末尾第一个字符
+-- print(string.byte("Lua",-1))    -->97
+-- --转换第二个字符
+-- print(string.byte("Lua",2))     -->117
+-- --转换末尾第二个字符
+-- print(string.byte("Lua",-2))    -->117
+-- --将整数转换为ASCII码中对应的字符
+-- print(string.char(97))         -->a
+-- print(string.char(65))         -->A
+
+
+--7.其他常用函数
+-- str1="www.";
+-- str2="baidu";
+-- str3=".com"
+-- --使用..连接字符串
+-- print(str1..str2..str3);
+-- --计算字符串的长度
+-- print(string.len(str1));
+-- --字符串赋值两次
+-- print(string.rep(str2,2));
+
+--8.匹配模式
+--Lua中的匹配模式直接使用常规的字符串来描述。
+--它用于模式匹配函数：string.find/string.gmatch/string.gsub/string.match
+--还可以在模式串中使用字符类。
+--字符类指可以匹配一个待定字符集内任何字符的模式项。
+--比如：字符类%d匹配任意数字。
+--比如：可以使用模式串%d%d/%d%d/%d%d%d%d 搜索dd/mm/yyyy格式的日期
+-- s="Deadline is 24/07/2020,firm";
+-- pattern="%d%d/%d%d/%d%d%d%d";
+-- print(string.sub(s,string.find(s,pattern)))         -->21/07/2020
+
+
+
+
+
+
 
 
 
