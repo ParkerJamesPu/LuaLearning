@@ -3,12 +3,13 @@ Lua leraning notes
 
 IDE/Tool:VSCode
 
-lua_01:lua æ•°æ®ç±»åž‹
-lua_02:Lua å˜é‡
-lua_03:lua å¾ªçŽ¯
-lua_04:Lua æµç¨‹æŽ§åˆ¶
-lua_05:lua å‡½æ•°
-lua_06:Lua è¿ç®—ç¬¦
-lua_07:Lua å­—ç¬¦ä¸²
-
+lua_01:lua Êý¾ÝÀàÐÍ
+lua_02:Lua ±äÁ¿
+lua_03:lua Ñ­»·
+lua_04:Lua Á÷³Ì¿ØÖÆ
+lua_05:lua º¯Êý
+lua_06:Lua ÔËËã·û
+lua_07:Lua ×Ö·û´®
+lua_08:Lua Êý×é
+lua_09:Lua µü´úÆ÷
 
