@@ -56,3 +56,37 @@
 -----如果__index方法是一个函数，则返回该函数的返回值。
 
 
+--2.__newindex元方法
+--*******__newindex元方法用来对表更新，__index则用来对表访问******
+--当你给表的一个缺少的索引赋值，解释器就会查找__newindex元方法；
+--如果存在则调用这个函数而不进行赋值操作。
+--以下实例演示了__newindex元方法的应用：
+--[[
+mymetatable={};
+mytable=setmetatable({key1="value1"},{__newindex=mymetatable});
+print(mytable.key1)
+mytable.newkey="新值2";
+print(mytable.newkey,mymetatable.newkey);
+mytable.key="新值1";
+print(mytable.key1,mymetatable.key1)
+]]
+--以上实例中表设置了元方法__newindex,在对新索引键(newkey)赋值时(mytable.newkey="新值2")，会调用元方法，
+--而不进行赋值。而如果对已存在的索引键（key1),则会机进行赋值，而不调用元方法__newindex.
+--个人简单理解：
+--如果表设置了元表，则对表中不存在的索引赋值时会调用元方法__newindex，导致的结果时：通过元表的索引访问则会存在赋值的结果，而通过表中不存在的索引访问则会返回nil
+--如果表设置了元表，则对表中存在的索引赋值时，则会直接进行赋值，而不调用元表的元方法，导致的结果是表中的对应的索引的值会被更改，而通过元表访问对应的索引会返回nil
+
+--以下实例通过rawset函数来实现更新表：
+-- mytable=setmetatable({key1="value1"},{
+--     __newindex=function(mytable,key,value)
+--         rawset(mytable,key,"\""..value.."\"")
+--     end
+-- })
+-- mytable.key1="new value1";
+-- mytable.key2=4;
+-- print(mytable.key1,mytable.key2);
+-- --使用rawset对表进行赋值，如果表中存在索引，则会直接更改索引对应的值；若表中不存在索引们则会创建索引并对索引对应的值进行赋值
+-- for i,v in pairs(mytable) do
+--     print(i,v);
+-- end
+
