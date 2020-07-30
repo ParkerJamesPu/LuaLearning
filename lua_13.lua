@@ -1,0 +1,17 @@
+-->>>Lua 协同程序（coroutine)
+
+--对于协同程序(coroutine)的理解：
+--Lua协同程序(coroutine)与线程比较类似：拥有独立的堆栈，独立的局部变量，独立的指令指针，同时又与其他协同程序共享全局变量和其他大部分东西
+--线程和协程的区别：
+--线程与协程的主要区别在于，一个具有多个线程的程序可以同时运行几个线程，而协程却需要彼此协作运行。
+--在任一指定时刻只有一个协同程序在运行，并且这个正在运行的协程只有在明确的被要求挂起的时候才会被挂起。
+--协程有点类似同步的多线程，在等待同一个线程锁的几个线程有点类似。
+--协程基本语法：
+--coroutine.create():创建coroutine,返回coroutine,参数是一个函数，当和resume配合使用的时候就唤醒函数调用
+--coroutine.resume():重启coroutine,和create配合使用
+--coroutine.yield()：挂起coroutine,将coroutine设置为挂起状态，这个和resume配合使用能有很多有用的效果
+--coroutine.status():查看coroutine状态：coroutine的状态有三种：dead,suspend,runing
+--coroutine.wrap():创建coroutine,返回一个函数，一旦你调用这个函数，就进入了coroutine,和create功能重复
+--coroutine.runing():返回正在跑的coroutine,一个coroutine就是一个线程，当使用runing的时候，就是返回一个coroutine线程号
+--以下示例显示了以上各个方法的用法：
+--详见coroutine_test.lua 脚本
