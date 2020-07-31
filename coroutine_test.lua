@@ -25,7 +25,7 @@
 --             print(i);
 --             if i==3 then
 --                 print(coroutine.status(co2))
---                 print(coroutine.runing())
+--                 print(coroutine.running())
 --             end
 --             coroutine.yield();
 --         end
@@ -35,29 +35,71 @@
 -- coroutine.resume(co2)       -->2
 -- coroutine.resume(co2)       -->3
 -- print(coroutine.status(co2))
+-- print(coroutine.running())
 
 --coroutine.runing 就可以看出，coroutine在底层实现了一个线程
 --当crate一个coroutine的时候就是在新线程中注册了一个事件
 --当使用corutine触发事件的时候，crate的coroutine函数就别执行了，当遇到yield的时候就代表挂起了当前线程，等待再次resume触发事件。
-function foo(a)
-    print("foo 函数输出："..a);
-    return coroutine.yield(2*a);        -->返回2*a的值
-end
-co=coroutine.create(
-    function(a,b)
-        print("第一个协程输出：",a,b);
-        local r=foo(a+1);
-        print("第二个协程输出:",r);
-        local r,s=coroutine.yield(a+b,a-b);     -->a,b的值为第一次调用协程时传入
-        print("第三个协程输出：",r,s);
-        return b,"协程结束";                     -->b为第二次调用协程事传入
-    end
-)
-print("main",coroutine.resume(co,1,10))     
-print("--------1---------")
-print("main",coroutine.resume(co,"r"))
-print("---------2--------")
-print("main",coroutine.resume(co,"x","y"))
-print("---------3--------")
-print("main",coroutine.resume(co,"x","y"))
-print("---------4--------")
+-- function foo(a)
+--     print("foo 函数输出："..a);
+--     return coroutine.yield(2*a);        -->返回2*a的值
+-- end
+-- co=coroutine.create(
+--     function(a,b)
+--         print("第一个协程输出：",a,b);
+--         local r=foo(a+1);
+--         print("第二个协程输出:",r);
+--         local r,s=coroutine.yield(a+b,a-b);     -->a,b的值为第一次调用协程时传入
+--         print("第三个协程输出：",r,s);
+--         return b,"协程结束";                     -->b为第二次调用协程时传入
+--     end
+-- )
+-- print("main",coroutine.resume(co,1,10))     
+-- print("--------1---------")
+-- print("main",coroutine.resume(co,"r"))
+-- print("---------2--------")
+-- print("main",coroutine.resume(co,"x","y"))
+-- print("---------3--------")
+-- print("main",coroutine.resume(co,"x","y"))
+-- print("---------4--------")
+--coroutine.running就可以看出，coroutine在底层实现了一个线程
+--当create一个coroutine的时候就是在新线程中注册可一个事件。
+--当使用resume触发事件的时候,create的coroutine函数就被执行了，当遇到yield的时候就代表挂起当前线程，等待再次resume触发事件。
+--详细示例如下：
+-- function foo(a)
+--     print("foo 函数输出：",a);
+--     return coroutine.yield(2*a);        -->返回2*a的值
+-- end
+-- co=coroutine.create(
+--     function(a,b)
+--         print("第一次调用协程：",a,b)
+--         local r=foo(a+1);
+    
+--         print("第二次调用协程：",r);
+--         local r,s=coroutine.yield(a+b,a-b);
+
+--         print("第三次调用协程：",r,s);
+--         return b,"结束协程"
+--     end
+-- )
+-- print("main",coroutine.resume(co,1,10));
+-- print("-------1-----")
+-- print("main",coroutine.resume(co,"r"))
+-- print("-------2-----")
+-- print("main",coroutine.resume(co,"x","y"))
+-- print("-------3-----")
+-- print("main",coroutine.resume(co,"x","y"))
+--以上示例理解如下：
+--调用resume,将协程唤醒，resume操作成功返回true,否则返回false
+--协程运行
+--运行到yield语句
+--yield挂起协同程序，第一次resume返回（注意：此处yield返回，参数是resume的参数）
+--第二次resume,再次唤醒协程(注意：此次resume的参数中，除了第一个参数，剩下的参数作为yield的参数)
+--yield返回
+--协程继续运行
+--如果使用协程继续运行完成后继续调用resume方法则输出：cannot resume dead coroutine
+--resume和yield的配合强大之处在于，resume处于主线程中，它的外部状态（数据）传入到协程内部；而yield则将内部的状态(数据)返回主程中。
+
+
+
+

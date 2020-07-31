@@ -1,0 +1,2 @@
+--1 test.lua 写入lua文件末尾注释--完全模式 file:write 方式追加写入内容
+--2 test.lua 写入lua文件末尾注释--完全模式 file:write 方式追加写入内容
