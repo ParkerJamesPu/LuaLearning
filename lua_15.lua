@@ -1,0 +1,70 @@
+-- >>>Lua 错误处理
+-- 程序运行中错误处理是必要的，我们在进行文件操作，数据转移和web service调用过程中都会出现不可预期的错误。
+-- 如果不注重错误信息处理，就会造成信息泄露，程序无法运行的情况。
+-- 任何程序语言中，都需要错误处理。错误类型有：
+-- 语法错误
+-- 运行错误
+-- 1.语法错误
+-- 语法错误通常是由于对程序的组件(如运算符、表达式)使用不当引起的，一个简单的例子如下：
+-- a==2      -->错误原因：一个等号=是赋值符号，两个等号==是比较运算
+-- for 循环语法错误示例：
+-- for i=1,10          -->错误原因缺少语句do
+--     print(i);
+-- end
+-- 2.运行错误
+-- 程序运行错误是程序可以正常运行，但是输出报错信息。
+-- 例如由于示例参数输入有误，程序执行报错：
+-- function add(a,b)
+--     return a+b;
+-- end
+-- add(10);     -->错误原因：输出参数个数不符合定义参数
+-- 3.错误处理
+-- 可以使用两个函数：assert和error来处理错误
+-- 示例如下：
+-- local function add(a,b)
+--     assert(type(a)=="number","a 不是一个数字")
+--     assert(type(b)=="number","b 不是一个数字")
+--     return a+b;
+-- end
+-- add(10)
+-- 以上程序中assert首先检查第一个参数，若没有问题，assert不做任何事情;否则，assert以第二个参数作为错误信息抛出
+-- 3.1.error函数
+-- 语法格式：
+-- error(message[,level])
+-- 功能：终止正在执行的函数，并返回message的内容作为错误信息(error函数永远都不返回)
+-- 通常情况下，error会附加一些错位位置的信息到message头部。
+-- level参数指示获得错误的位置：
+-- level=1[默认]：为调用error位置(文件+行号)
+-- level=2:指出那个调用error的函数的函数
+-- level=0：不添加错误位置信息
+-- 4.pcall和xpcall、debug
+-- Lua中处理错误信息，可以使用函数pcall(protected call)来包装需要执行的代码
+-- pcall接受一个函数和要传递给后者的参数，并执行，执行结果：有错误，无错误；返回值true或false,errorinfo
+-- 语法格式如下：
+-- if pcall(function_name,...) then
+--     --没有错误
+-- else
+--     --有错误
+-- end
+-- 简单示例如下：
+-- print(pcall(function(i) print(i) error("error...") end,33))
+-- pcall以一种"保护模式"来调用一个参数，因此pcall可以捕获函数执行中的任何错误信息。
+-- 通常在错误发生时，希望获取更多的错误信息，而不是发生错误的位置。但pcall返回时，它已经销毁了调用栈的部分内容
+-- Lua提供了xpcall函数,xpcall接受第二个参数-一个错误处理函数，当错误发生时，Lua会在调用栈展开(unwind)前调用错误处理函数，于是就就可以在这个函数中使用debug库来获取关于错误的额外信息
+-- debug库提供了两个通用的错误处理函数：
+-- debug.debug:提供了一Lua提示符，让用户来检查错误的原因
+-- debug.traceback：根据调用堆栈来构建一个扩展的错误消息
+-- print(xpcall(function(i)
+--     print(i)
+--     error("error...")
+-- end, function() print(debug.traceback()) end, 33))
+--xpcall使用示例2
+-- function myfunc()
+--     n=n/nil
+-- end
+-- function myErrorHandler(err)
+--     print("Error:",err)
+-- end
+-- status=xpcall(myfunc,myErrorHandler)
+-- print(status)
+
