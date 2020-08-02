@@ -1,0 +1,70 @@
+-->>>Lua 调试Debug
+
+--Lua提供了debug库用于提供创建我们自定义的调试器的功能。Lua本身并没有内置的调试器，但很多开发者共享了Lua调试器代码。
+
+--1.Lua中debug库包含以下函数：
+--1.1 debug():进入一个用户交互模式，运行用户输出的每个字符串。使用简单的命令以及其调试设置，用户可以检阅全局变量和局部变量
+------改变变量的值，计算一些表达式等
+--1.2 getfenv(object):返回对象的环境变量
+--1.3 gethook(optional thread):返回表示三个线程钩子设置的值：当前钩子函数，当前钩子掩码，当前钩子计数
+--1.4 getinfo([thread,]f[,what]):返回一个函数信息表，你可以直接提供该函数，也可以用一个数字f表示该函数。
+------数字f表示运行在执行线程的调用栈对应层次上的函数：0 层编导是当前函数（getinfo自身)；1 层表示调用getinfo的函数
+------调用getinfo的函数(除非是尾调用，这种情况不计入栈)等等。如果f是一个比活动函数还大的数字，getinfo 返回nil
+--1.5 getlocal([thread,]f,local):此函数返回在栈的f层处函数的索引为local的局部变量的名字和值。这个函数不仅用于访问显示定义的
+------局部变量，也包括形参，临时变量等
+--1.6 getmetatable(value):把给定索引指向的值的元表压入堆栈。如果索引无效，或者这个值没有元表，函数将返回0并且不会向栈上压任何东西
+--1.7 getregistry():返回注册表，这是一个预定义出来的表，可以用来保存任何c代码想保存的Lua值。
+--1.8 getupvalue(f,up):此函数返回函数f的第up个上值的名字和值。如果该函数没有那个上值，返回nil.
+------以'('（开括号）打头的变量名表示没有名字的变量（去除了调式西悉尼的代码块）
+--1.9 sethook([thread,]hook,mask[,count]):将一个函数作为钩子函数设入。字符串mask以及数字count决定了钩子函数将在何时调用，掩码是由以下字符组成成的字符串，没个字符有其意义：
+------'c' :每当lua调用一个函数时，调用钩子
+------'r' :每当lua从一个函数内返回时，调用钩子
+------'l' :每当lua进入新的一行时调用钩子
+--1.10 setlocal([thread,]level,local,value):这个函数 将value赋值给栈上的第level层函数的第local个局部变量。如果没那个局部变量，函数返回nil.如果level越界，抛出一个错误
+--1.11 setmetatable(value,table):将value的元素设为table(可以是nil),返回value
+--1.12 setupvalue(f,up,value):将value设置为函数f的第up个上值。如果函数没有那个上值，返回nil，否则返回该上值的名字
+--1.13 traceback([thread,][message[,level]]):如果message有，且不是字符串或nil,函数不做任何处理直接返回message.
+-------否则，它饭hi调用栈的栈回溯信息。字符串可选项message被添加在栈回溯信息的开头。数字可选项level指明从栈的那一层开始回溯(默认为1，即调用traceback的哪里)
+--上面列出了我们常用的调试函数，接下来我们看看简单的示例：
+-- function myfunc()
+--     print(debug.traceback("stack trace"));
+--     print(debug.getinfo(1));
+--     print("stack trace end")
+--     return 10;
+-- end
+-- myfunc();
+-- print(debug.getinfo(1));
+--以上示例中我们使用debug库的traceback和getinfo函数，getinfo函数用于返回函数信息列表
+--示例：我们经常需要调用调式函数的内部局部变量，我们可以使用getupvalue函数来设置这些局部变量：
+-- function newCounter()
+--     local n=0;
+--     local k=0;
+--     return function()
+--         k=n;
+--         n=n+1;
+--         return n;
+--     end
+-- end
+-- counter=newCounter();
+-- print(counter());
+-- print(counter());
+-- local i=1;
+-- repeat 
+--     name,val=debug.getupvalue(counter,i)
+--     if(name) then
+--     print("index",i,name,"=",val)
+--     if(name=="n") then
+--         debug.setupvalue(counter,2,10);
+--     end
+--     i=i+1;
+--     end
+-- until not name;
+-- print(counter());
+--在以上示例中，计数器每次调用都会自增1，实例中我们使用了getupvalue函数查看局部变量的当前状态。
+--示例中，当设置前n的值为2时，使用setupvalue的函数将其设置为10，现在我们调用函数，执行后输出为11，而不是3
+
+--2.调试类型
+--命令行调试
+--命令行调试器有：RemDebug、clidebugger、ctrace、xdbLuad、LuaInterface-Debugger、Rldb、ModDebug
+--图形界面调试
+--图形界面调试器有：SciTE、Decoda、ZeroBrane Studio、akdebugger、Luaedit
